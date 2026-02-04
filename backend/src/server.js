@@ -1,5 +1,5 @@
 import express from "express";
-import {ENV} from "./config/env.js";
+import {ENV} from "./config/ENV.js";
 import { connectDB } from "./config/db.js";
 import { clerkMiddleware } from '@clerk/express'
 
