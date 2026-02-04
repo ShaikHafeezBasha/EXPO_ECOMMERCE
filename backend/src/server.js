@@ -16,9 +16,13 @@ app.get("/api/health", (req, res) => {
   res.status(200).json({ message: "Success" });
 });
 
-app.listen(ENV.PORT, () => {
-  connectDB();
-  console.log("Server is up and running");
-});
+const startServer = async () => {
+  await connectDB();
+  app.listen(ENV.PORT, () => {
+    console.log("Server is up and running");
+  });
+};
+
+startServer();
 
 // https://expo-ecommerce-a559.onrender.com/
