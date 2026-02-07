@@ -8,7 +8,6 @@ const cartItemSchema = new mongoose.Schema({
   },
   quantity: {
     type: Number,
-    ref: "Product",
     min: 1,
     default: 1,
   },
@@ -22,7 +21,7 @@ const cartSchema = new mongoose.Schema(
       required: true,
     },
     clerkId: {
-      type: string,
+      type: String,
       required: true,
       unique: true,
     },
