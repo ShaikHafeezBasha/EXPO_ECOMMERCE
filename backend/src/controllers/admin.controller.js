@@ -67,11 +67,11 @@ export async function updateProduct(req, res) {
 
     if (name) product.name = name;
     if (description) product.description = description;
-    if (price) product.price = parseFloat(price);
+    if (price !== undefined) product.price = parseFloat(price);
     if (stock !== undefined) product.stock = parseInt(stock);
     if (category) product.category = category;
 
-    if (req.files || req.files.length > 0) {
+    if (req.files && req.files.length > 0) {
       if (req.files.length > 3) {
         return res.status(400).json({ message: "Maximum 3 images allowed" });
       }
