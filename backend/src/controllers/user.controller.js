@@ -36,10 +36,10 @@ export async function addAddress(req, res) {
 
     return res.status(201).json({
       message: "Address added successfully",
-      addresses: user.addAddress,
+      addresses: user.addresses,
     });
   } catch (error) {
-    console.error("Errorin addAddress controller", error);
+    console.error("Error in addAddress controller", error);
     res.status(500).json({ message: "Internal server error" });
   }
 }
@@ -49,7 +49,7 @@ export async function getAddress(req, res) {
     const user = req.user;
     res.status(200).json({ addresses: user.addresses });
   } catch (error) {
-    console.error("Errorin getAddresses controller", error);
+    console.error("Error in getAddresses controller", error);
     res.status(500).json({ message: "Internal server error" });
   }
 }
@@ -96,10 +96,10 @@ export async function updateAddress(req, res) {
 
     return res.status(200).json({
       message: "Address updated successfully",
-      addresses: user.addAddress,
+      addresses: user.addresses,
     });
   } catch (error) {
-    console.error("Errorin updateAddress controller", error);
+    console.error("Error in updateAddress controller", error);
     res.status(500).json({ message: "Internal server error" });
   }
 }
@@ -110,22 +110,27 @@ export async function deleteAddress(req, res) {
 
     const user = req.user;
 
+    const address = user.addresses.id(addressId);
+    if (!address) {
+      return res.status(404).json({ error: "Address not found" });
+    }
+
     user.addresses.pull(addressId);
     await user.save();
 
     return res.status(200).json({
       message: "Address deleted successfully",
-      addresses: user.addAddress,
+      addresses: user.addresses,
     });
   } catch (error) {
-    console.error("Errorin deleteAddresses controller", error);
+    console.error("Error in deleteAddresses controller", error);
     res.status(500).json({ message: "Internal server error" });
   }
 }
 
 export async function addToWishlist(req, res) {
   try {
-    const { productId } = req.params;
+    const { productId } = req.body;
     const user = req.user;
 
     //check if product is already in the wishlist
@@ -140,7 +145,7 @@ export async function addToWishlist(req, res) {
       .status(200)
       .json({ message: "Product added to wishlist", wishlist: user.wishlist });
   } catch (error) {
-    console.error("Errorin addToWishlist controller", error);
+    console.error("Error in addToWishlist controller", error);
     res.status(500).json({ message: "Internal server error" });
   }
 }
@@ -149,7 +154,7 @@ export async function getWishlist(req, res) {
   try {
     return res.status(200).json({ wishlist: req.user.wishlist });
   } catch (error) {
-    console.error("Errorin getWishlist controller", error);
+    console.error("Error in getWishlist controller", error);
     res.status(500).json({ message: "Internal server error" });
   }
 }
@@ -171,7 +176,7 @@ export async function removeFromWishlist(req, res) {
       message: "Product removed from wishlist",
     });
   } catch (error) {
-    console.error("Errorin removeFromWishlist controller", error);
+    console.error("Error in removeFromWishlist controller", error);
     res.status(500).json({ message: "Internal server error" });
   }
 }
